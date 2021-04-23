@@ -24,6 +24,7 @@ function saveRecord(record) {
     const transaction = db.transaction(['new_transaction'], 'readwrite');
     const budgetObjectStore = transaction.objectStore('new_transaction');
     budgetObjectStore.add(record);
+    alert('You are now offline.\nBudget Tracker will submit all offline activity to the database once internet connection is restored.\nOffline access is still available.')
 };
 
 function uploadTransaction() {
@@ -43,9 +44,7 @@ function uploadTransaction() {
             })
                 .then(response => response.json())
                 .then(serverResponse => {
-                    if (serverResponse.message) {
-                        throw new Error(serverResponse);
-                    }
+                    if (serverResponse.message) throw new Error(serverResponse);
 
                     const transaction = db.transaction(['new_transaction'], 'readwrite');
                     const budgetObjectStore = transaction.objectStore('new_transaction');
