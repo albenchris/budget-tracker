@@ -19,3 +19,13 @@ const FILES_TO_CACHE = [
     './js/index.js'
 ];
 
+self.addEventListener('install', function (e) {
+    e.waitUntil(
+        caches.open(CACHE_NAME).then(cache => {
+            console.log('Your files were pre-cached successfully!');
+            return cache.addAll(FILES_TO_CACHE);
+        })
+    );
+
+    self.skipWaiting();
+});
