@@ -1,9 +1,9 @@
 let db;
-const request = indexedDB.open('budget') // << Check back on this
+const request = indexedDB.open('budget_tracker', 1);
 
 request.onupgradeneeded = function (e) {
-    db = e.target.result;
-    db.createObjectStore('new_transaction');
+    const db = e.target.result;
+    db.createObjectStore('new_transaction', { autoIncrement: true });
 };
 
 request.onsuccess = function (e) {
@@ -20,8 +20,10 @@ request.onerror = function (e) {
 
 // =========== CALLBACKS START ============================================
 
-function saveRecord() {
-    console.log('Record saved!');
+function saveRecord(record) {
+    const transaction = db.transaction(['new_transaction'], 'readwrite');
+    const budgetObjectStore = transaction.objectStore('new_transaction');
+    budgetObjectStore.add(record);
 };
 
 function uploadTransaction() {
