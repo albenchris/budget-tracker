@@ -51,7 +51,7 @@ self.addEventListener('activate', function (e) {
 });
 
 self.addEventListener('fetch', function (e) {
-    if (e.request.url.includes('/api/')) {
+    if (e.request.url.includes('api/')) {
         e.respondWith(
             caches
                 .open(DATA_CACHE_NAME)
